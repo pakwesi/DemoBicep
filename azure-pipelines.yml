@@ -10,10 +10,15 @@ pool:
   vmImage: windows-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'servicedemo'
+    subscriptionId: '80529350-ab8a-4ec3-a694-0e7509824aa7'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'demobicep'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: 'DevBicep.Bicep'
+    csmParametersFile: 'DevBicep.parameters.json'
+    deploymentMode: 'Incremental'
